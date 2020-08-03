@@ -1,5 +1,5 @@
 .profile__avatar {
-    background: url(../../../images/avatar.jpg) center no-repeat; 
+    background: center no-repeat; 
     background-size: contain;   
     border-radius: 50%;
     width: 120px;
