@@ -7,7 +7,7 @@ function Card(props) {
     return (
         <div className="element">
         <button className="element__delete-button"></button>
-        <img className="element__image" style={{ backgroundImage: `url(${props.card.link})` }} onClick={handleClick}></img>
+        <img className="element__image" src={`${props.card.link}`} onClick={handleClick}></img>
         <div className="element__container">
             <h2 className="element__description">{props.card.name}</h2>
             <div className="element__like-element">

@@ -12,7 +12,7 @@ function ImagePopup(props) {
                         fill="white" />
                 </svg>
             </button>
-            <img className="popup__image" style={{ backgroundImage: `url(${props.card.link})`}}></img>
+            <img className="popup__image" src={`${props.card.link}`}></img>
             <p className="popup__caption">{props.card.name}</p>
         </div>
     </div>
