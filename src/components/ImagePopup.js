@@ -12,8 +12,8 @@ function ImagePopup(props) {
                         fill="white" />
                 </svg>
             </button>
-            <img className="popup__image" src={`${props.card.link}`}></img>
-            <p className="popup__caption">{props.card.name}</p>
+            <img className="popup__image" src={`${props.card ? props.card.link : ''}`}></img>
+            <p className="popup__caption">{props.card ? props.card.name : ''}</p>
         </div>
     </div>
     );
