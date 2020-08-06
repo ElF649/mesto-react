@@ -13,7 +13,7 @@ function PopupWithForm(props) {
             </svg>
         </button>
         <h2 className="popup__title">{props.title}</h2>
-        <form className="popup-form" noValidate>
+        <form className="popup-form" noValidate onSubmit={props.onSubmit}>
             {props.children}
         </form>
     </div>

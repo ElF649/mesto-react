@@ -44,12 +44,7 @@ class Api {
             .then(res => {
                 return this._getResponseData(res);
             })
-            .then((res) => {
-                return {
-                    name: res.name,
-                    about: res.about
-                }
-            })
+            
     }
     postNewCard({ name, link }) {
         return fetch(`${this._baseURL}/cards`, {
@@ -67,9 +62,9 @@ class Api {
                 return this._getResponseData(res);
             })
     }
-    putLike(cardId) {
+    changeLikeCardStatus(cardId, isLiked) {
         return fetch(`${this._baseURL}/cards/likes/${cardId}`, {
-            method: 'PUT',
+            method: `${isLiked ? 'PUT' : 'DELETE'}`,
             headers: {
                 authorization: this._key
             }
@@ -77,18 +72,7 @@ class Api {
             .then((res) => {
                 return this._getResponseData(res);
             })
-    }
-    deleteLike(cardId) {
-        return fetch(`${this._baseURL}/cards/likes/${cardId}`, {
-            method: 'DELETE',
-            headers: {
-                authorization: this._key
-            }
-        })
-            .then((res) => {
-                return this._getResponseData(res);
-            })
-    }
+    }   
     deleteCard(cardId) {
         return fetch(`${this._baseURL}/cards/${cardId}`, {
             method: 'DELETE',

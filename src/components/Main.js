@@ -1,44 +1,26 @@
-import React from 'react';
+import React, { useReducer } from 'react';
 import Card from './Card'
+import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import { api } from '../utils/Api'
 
-function Main(props) {
-    const [userName, setUserName] = React.useState();
-    const [userDercripton, setUserDercripton] = React.useState();
-    const [userAvatar, setUserAvatar] = React.useState();
-    const [cards, setCards] = React.useState([])
-    
 
-    React.useEffect(() => {
-        api.getProfileInfo().then((user) => {
-            setUserAvatar(user.avatar)
-            setUserDercripton(user.about)
-            setUserName(user.name)
-        }).catch((err) => {
-            console.log(err);
-        })
-    }, []);
-    React.useEffect(() => {
-        api.getInitialCards().then((initialCards) => {
-            setCards(initialCards)
-        }).catch((err) => {
-            console.log(err);
-        })
-    }, []);
+function Main(props) {
+    const currentUser = React.useContext(CurrentUserContext);    
+    
 
     return (
         <main className="main-content">
             <section className="profile">
                 <div className="profile__container">
                     <div className="profile__avatar-container" onClick={props.onEditAvatar}>
-                        <img className="profile__avatar" style={{ backgroundImage: `url(${userAvatar})` }}></img>
+                        <img className="profile__avatar" src={`${currentUser && currentUser.avatar}`}></img>
                         <div className="profile__avatar-icon"></div>
                     </div>
 
                     <div className="profile__info">
                         <div className="profile__info-text-container">
-                            <h1 className="profile__info-name">{userName}</h1>
-                            <p className="profile__info-description">{userDercripton}</p>
+                            <h1 className="profile__info-name">{currentUser && currentUser.name}</h1>
+                            <p className="profile__info-description">{currentUser && currentUser.about}</p>
                         </div>
                         <button className="profile__info-edit-button" onClick={props.onEditProfile}>
                             <svg className="profile__info-edit-button-img" width="10" height="10" viewBox="0 0 10 10"
@@ -60,8 +42,13 @@ function Main(props) {
             </section>
 
             <section className="elements">
-                {cards.map((item) => (
-                   <Card card={item} onCardClick={props.onCardClick} key={item._id} />
+                {props.cards.map((item) => (
+                   <Card card={item}
+                   cards={props.cards}
+                   onCardClick={props.onCardClick} 
+                   key={item._id} 
+                   onCardLike={props.onCardLike} 
+                   onCardDelete={props.onCardDelete} />
                 ))}
             </section>
         </main>
