@@ -1,0 +1,8 @@
+.register__signup {
+    display: flex;
+    margin: auto;    
+}
+
+.register__signup p {
+    margin: 0;
+}

@@ -1,0 +1,17 @@
+@import url(./__form/login__form.css);
+@import url(./__title/login__title.css);
+@import url(./__button-container/login__button-container.css);
+@import url(./__link/login__link.css);
+@import url(./__signup-link/login__signup-link.css);
+@import url(./__signup/login__signup.css);
+
+.login {    
+    color: white;
+    display: flex;
+    font-family: 'Inter';
+    flex-direction: column;
+    justify-content: center;
+    max-width: 358px;    
+    margin: 60px auto;
+  }
+

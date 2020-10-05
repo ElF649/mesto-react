@@ -6,6 +6,10 @@
     margin: auto;
     padding-top: 66px;
     padding-bottom: 60px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
 }
 
 @media screen and (max-width : 1439px) {

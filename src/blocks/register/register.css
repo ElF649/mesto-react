@@ -1,0 +1,17 @@
+@import url(./__form/register__form.css);
+@import url(./__title/register__title.css);
+@import url(./__button-container/register__button-container.css);
+@import url(./__link/register__link.css);
+@import url(./__signup-link/register__signup-link.css);
+@import url(./__signup/register__signup.css);
+
+.register {    
+    color: white;
+    display: flex;
+    font-family: 'Inter';
+    flex-direction: column;
+    justify-content: center;
+    max-width: 358px;    
+    margin: 60px auto;
+  }
+

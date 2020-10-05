@@ -6,10 +6,14 @@ import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
 import ImagePopup from './ImagePopup';
+import Login from './Login';
+import ProtectedRoute from './ProtectedRoute';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import '../index.css';
 import { api } from '../utils/Api'
-
+import { Route, Switch, Redirect, withRouter, BrowserRouter } from 'react-router-dom';
+import Register from './Register';
+import * as auth from '../auth.js';
 
 function App(props) {
     const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
@@ -18,8 +22,11 @@ function App(props) {
     const [selectedCard, setIsSelectedCard] = React.useState(null)
     const [currentUser, setCurrentUser] = React.useState(null);
     const [cards, setCards] = React.useState([])
+    const [loggedIn, SetLoggedIn] = React.useState(true)
 
-
+    React.useEffect(() => {
+        handleTokenCheck();
+    });
 
     React.useEffect(() => {
         api.getInitialCards().then((initialCards) => {
@@ -36,6 +43,30 @@ function App(props) {
             console.log(err);
         })
     }, []);
+
+    handleTokenCheck(){
+        if (localStorage.getItem('jwt')) {
+            const jwt = localStorage.getItem('jwt');            
+            auth.checkToken(jwt).then((res) => {                
+                    SetLoggedIn(true);                        
+                        // calGoal
+                    }, () => {
+                        this.props.history.push("/diary");
+                    });
+                }
+            });
+        }
+    }
+    handleLogin(calGoal){
+        this.setState({
+            loggedIn: true,
+            calGoal
+        })
+    }
+    handleLogout(){
+        // допишите обработку выхода из системы
+    }
+
     function handleCardLike(card) {
 
         const isLiked = card.likes.some(i => i._id === currentUser._id);
@@ -48,7 +79,7 @@ function App(props) {
         });
     }
     function handleCardDelete(card) {
-        api.deleteCard(card._id).then(() => {            
+        api.deleteCard(card._id).then(() => {
             setCards(cards.filter(item => item != card))
         })
     }
@@ -72,7 +103,7 @@ function App(props) {
     }
     function handleUpdateUser(data) {
 
-        api.patchProfileInfo(data).then((info) => {            
+        api.patchProfileInfo(data).then((info) => {
             setCurrentUser(info)
         }).then(() => {
             closeAllPopups()
@@ -103,15 +134,28 @@ function App(props) {
             <div className="page">
                 <CurrentUserContext.Provider value={currentUser}>
                     <Header />
-                    <Main
-                        cards={cards}
-                        onEditProfile={handleEditProfileClick}
-                        onAddPlace={handleAddPlaceClick}
-                        onEditAvatar={handleEditAvatarClick}
-                        onCardClick={handleCardClick}
-                        onCardLike={handleCardLike}
-                        onCardDelete={handleCardDelete}
-                    />
+                    <BrowserRouter>
+                        <Switch>
+                            <Route path="/login">
+                                <Login />
+                            </Route>
+                            <Route path="/register">
+                                <Register />
+                            </Route>
+                            <Main
+                                cards={cards}
+                                onEditProfile={handleEditProfileClick}
+                                onAddPlace={handleAddPlaceClick}
+                                onEditAvatar={handleEditAvatarClick}
+                                onCardClick={handleCardClick}
+                                onCardLike={handleCardLike}
+                                onCardDelete={handleCardDelete}
+                            >
+
+                            </Main>
+                        </Switch>
+                    </BrowserRouter>
+
                     <Footer />
 
                     <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddPlace={handleAddPlaceSubmit} />

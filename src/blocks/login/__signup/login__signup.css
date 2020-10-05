@@ -1,0 +1,8 @@
+.login__signup {
+    display: flex;
+    margin: auto;    
+}
+
+.login__signup p {
+    margin: 0;
+}

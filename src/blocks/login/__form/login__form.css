@@ -1,0 +1,14 @@
+.login__form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;    
+  }
+
+  .login__form input {
+    height: 27px;  
+    background-color: transparent;
+    border-width: 0 0 2px;
+    border-bottom: 2px solid #CCCCCC;
+    padding-bottom: 13px;
+    margin-bottom: 30px;
+  }
