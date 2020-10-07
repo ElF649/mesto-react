@@ -1,13 +1,10 @@
-import { Link, Route, useHistory } from 'react-router-dom';
+import { Link, Route } from 'react-router-dom';
 import React from 'react';
 
-function InfoBar(props) {
-    const history = useHistory();
+function InfoBar(props) {    
 
     function signOut() {
-        props.logOut();
-        localStorage.removeItem('jwt');
-        history.push('/');
+        props.logOut();        
     }
 
     return (

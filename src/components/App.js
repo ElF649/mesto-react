@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
 import Header from './Header';
 import Main from './Main';
@@ -14,7 +15,7 @@ import { api } from '../utils/Api'
 import { Route, Switch, useHistory } from 'react-router-dom';
 import Register from './Register';
 import InfoTooltip from './InfoTooltip'
-import * as auth from '../auth.js';
+import * as auth from '../utils/auth.js';
 
 function App(props) {
     const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
@@ -32,7 +33,7 @@ function App(props) {
 
     React.useEffect(() => {
         handleTokenCheck();
-    });
+    }, [handleTokenCheck]);
 
     React.useEffect(() => {
         api.getInitialCards().then((initialCards) => {
@@ -59,16 +60,37 @@ function App(props) {
                     setLoggedIn(true);
                     history.push('/')
                 }
-            });
+            })
+                .catch(err => console.log(err));
         }
     };
 
 
-    function handleLogin(calGoal) {
-        setLoggedIn(true);
+    function handleLogin(password, email) {
+        auth.authorize(password, email)
+            .then((data) => {
+                if (data.token) {
+                    setLoggedIn(true);
+                    history.push('/');
+                }
+            })
+            .catch(err => console.log(err));
     }
     function handleLogout() {
         setLoggedIn(false);
+        localStorage.removeItem('jwt');
+        history.push('/sign-in');
+    }
+    function handleRegister(password, email) {
+        auth.register(password, email)
+            .then(() => {
+                handleInfoTooltip(true);
+                history.push('/sign-in');
+            })
+            .catch((err) => {
+                handleInfoTooltip(false);
+                console.log(err)
+            });
     }
 
     function handleCardLike(card) {
@@ -163,10 +185,13 @@ function App(props) {
                             onCardDelete={handleCardDelete}
                         />
                         <Route path="/sign-in">
-                            <Login handleLogin={handleLogin} />
+                            <Login onLogin={handleLogin} />
                         </Route>
                         <Route path="/sign-up">
-                            <Register onEndRegistration={handleInfoTooltip} handleLogin={handleLogin} />
+                            <Register
+                                onRegister={handleRegister}
+                                onEndRegistration={handleInfoTooltip}
+                                handleLogin={handleLogin} />
                         </Route>
                     </Switch>
                     <Footer />

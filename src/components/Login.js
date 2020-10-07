@@ -1,36 +1,28 @@
 import React from 'react';
-import { Link, useHistory, withRouter } from 'react-router-dom';
-import * as auth from '../auth.js';
+import { Link, withRouter } from 'react-router-dom';
+;
 
 
 export function Login(props) {
   const [email, setEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
-  const history = useHistory()
+  const [password, setPassword] = React.useState('');  
 
-  function handleChangeEmai(e) {    
-    setEmail(e.target.value);    
+  function handleChangeEmai(e) {
+    setEmail(e.target.value);
   }
 
   function handleChangePassword(e) {
     setPassword(e.target.value);
   }
 
-  function handleSubmit(e){
+  function handleSubmit(e) {
     e.preventDefault();
     if (!email || !password) {
       return;
     }
-    auth.authorize(password, email)
-      .then((data) => {
-        if (data.token) {
-            setEmail('');
-            setPassword('');
-            props.handleLogin()
-            history.push('/');          
-        }
-      })
-      .catch(err => console.log(err));
+    props.onLogin(password, email);
+    setEmail('');
+    setPassword('');
   }
 
   return (
@@ -39,7 +31,7 @@ export function Login(props) {
         Вход
         </p>
       <form className="login__form" onSubmit={handleSubmit}>
-        <input required id="email" name="email" placeholder="Email" type="email" value={email} onChange={handleChangeEmai}  />
+        <input required id="email" name="email" placeholder="Email" type="email" value={email} onChange={handleChangeEmai} />
         <input required id="password" name="password" placeholder="Пароль" type="password" value={password} onChange={handleChangePassword} />
         <div className="login__button-container">
           <button type="submit" className="login__link">Войти</button>

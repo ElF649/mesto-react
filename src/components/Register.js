@@ -1,13 +1,10 @@
 import React from 'react';
-import { Link, useHistory, withRouter } from 'react-router-dom';
-import * as auth from '../auth.js';
-
+import { Link, withRouter } from 'react-router-dom';
 
 export function Register(props) {
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
-
-    const history = useHistory();
+    
 
     function handleChangeEmai(e) {
         setEmail(e.target.value);
@@ -19,19 +16,7 @@ export function Register(props) {
 
     function handleSubmit(e) {
         e.preventDefault();
-        auth.register(password, email)
-            .then(res => {
-                if (res.data) {
-                    props.handleLogin()
-                    history.push('/');
-                    props.onEndRegistration(true);
-                    
-                } else {
-                    props.onEndRegistration(false)
-                }
-                
-            })
-            .catch((err) => console.log(err));
+        props.onRegister(password, email)
     }
 
     return (
