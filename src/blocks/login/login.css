@@ -13,5 +13,6 @@
     justify-content: center;
     max-width: 358px;    
     margin: 60px auto;
+    min-height: calc(88vh - 124px - 148px);
   }
 

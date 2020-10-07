@@ -12,10 +12,10 @@ export const register = (password, email) => {
   .then((response) => {
     return response.json();
   })
-  .then((res) => {
+  .then((res) => {    
     return res;
   })
-  .catch((err) => console.log(err));
+  
 };
 export const authorize = (password, email) => {
   return fetch(`${BASE_URL}/signin`, {
@@ -27,15 +27,15 @@ export const authorize = (password, email) => {
     body: JSON.stringify({password, email})
   })
   .then((response => response.json()))
-  .then((data) => {
-    if (data.user){
-      localStorage.setItem('jwt', data.jwt);
+  .then((data) => {    
+    if (data){          
+      localStorage.setItem('jwt', data.token);
       return data;
     }
   })
   .catch(err => console.log(err))
 };
-export const checkToken = (token) => {
+export const checkToken = (token) => {  
   return fetch(`${BASE_URL}/users/me`, {
     method: 'GET',
     headers: {

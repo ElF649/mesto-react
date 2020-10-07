@@ -1,7 +1,7 @@
 .register__form {
     display: flex;
     flex-direction: column;
-    justify-content: center;    
+    justify-content: center;        
   }
 
   .register__form input {
@@ -11,4 +11,5 @@
     border-bottom: 2px solid #CCCCCC;
     padding-bottom: 13px;
     margin-bottom: 30px;
+    color: white;
   }

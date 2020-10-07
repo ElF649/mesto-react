@@ -1,0 +1,15 @@
+.infobar__button {
+    text-decoration: none;
+    color: white;
+    font-family: Inter;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 22px;
+    margin-left: 24px;
+}
+
+.infobar__button:hover {
+    color: #FFFFFF;
+    opacity: 0.6;
+}

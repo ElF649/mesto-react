@@ -9,3 +9,9 @@
     text-align: center;
     width: 100%;        
 }
+
+.login__link:hover {
+    background: #FFFFFF;
+    opacity: 0.85;
+    cursor: pointer;
+}

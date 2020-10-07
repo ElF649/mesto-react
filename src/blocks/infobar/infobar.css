@@ -1,0 +1,7 @@
+@import url('./__button/infobar__button.css');
+@import url('./__title/infobar__title.css');
+
+.infobar {
+    display: flex;
+    align-items: center;
+}

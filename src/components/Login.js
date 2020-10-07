@@ -1,29 +1,33 @@
 import React from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { Link, useHistory, withRouter } from 'react-router-dom';
 import * as auth from '../auth.js';
 
 
 export function Login(props) {
-  const email = React.useState('');
-  const password = React.useState('');
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const history = useHistory()
 
-  function handleChange(e) {
-    const { name, value } = e.target;
-    this.setState({
-      [name]: value
-    });
+  function handleChangeEmai(e) {    
+    setEmail(e.target.value);    
   }
+
+  function handleChangePassword(e) {
+    setPassword(e.target.value);
+  }
+
   function handleSubmit(e){
     e.preventDefault();
     if (!email || !password) {
       return;
     }
-    auth.authorize(email, password)
+    auth.authorize(password, email)
       .then((data) => {
-        if (data.jwt) {
-          this.setState({ email: '', password: '' }, () => {
-            this.props.history.push('/');
-          })
+        if (data.token) {
+            setEmail('');
+            setPassword('');
+            props.handleLogin()
+            history.push('/');          
         }
       })
       .catch(err => console.log(err));
@@ -34,16 +38,16 @@ export function Login(props) {
       <p className="login__title">
         Вход
         </p>
-      <form className="login__form">
-        <input required id="email" name="email" placeholder="Email" type="email" />
-        <input required id="password" name="password" placeholder="Пароль" type="password" />
+      <form className="login__form" onSubmit={handleSubmit}>
+        <input required id="email" name="email" placeholder="Email" type="email" value={email} onChange={handleChangeEmai}  />
+        <input required id="password" name="password" placeholder="Пароль" type="password" value={password} onChange={handleChangePassword} />
         <div className="login__button-container">
           <button type="submit" className="login__link">Войти</button>
         </div>
       </form>
       <div className="login__signup">
         <p>Ещё не зарегистрированы?</p>
-        <Link to="/register" className="login__signup-link">Регистрация</Link>
+        <Link onClick={props.updateHistory} to="/sign-up" className="login__signup-link">Регистрация</Link>
       </div>
     </div>
   )

@@ -1,22 +1,37 @@
 import React from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { Link, useHistory, withRouter } from 'react-router-dom';
 import * as auth from '../auth.js';
 
 
 export function Register(props) {
-    const email = React.useState('');
-    const password = React.useState('');
-    
+    const [email, setEmail] = React.useState('');
+    const [password, setPassword] = React.useState('');
 
-    function handleChange (e)  {
-        const { name, value } = e.target;
-        this.setState({
-            [name]: value
-        });
+    const history = useHistory();
+
+    function handleChangeEmai(e) {
+        setEmail(e.target.value);
     }
-    function handleSubmit (e) {
+
+    function handleChangePassword(e) {
+        setPassword(e.target.value);
+    }
+
+    function handleSubmit(e) {
         e.preventDefault();
-        auth.register(password, email);        
+        auth.register(password, email)
+            .then(res => {
+                if (res.data) {
+                    props.handleLogin()
+                    history.push('/');
+                    props.onEndRegistration(true);
+                    
+                } else {
+                    props.onEndRegistration(false)
+                }
+                
+            })
+            .catch((err) => console.log(err));
     }
 
     return (
@@ -24,16 +39,16 @@ export function Register(props) {
             <p className="register__title">
                 Регистрация
         </p>
-            <form className="register__form">
-                <input required id="email" name="email" placeholder="Email" type="email" onChange={handleChange} />
-                <input required id="password" name="password" placeholder="Пароль" type="password" onChange={handleChange} />
+            <form className="register__form" onSubmit={handleSubmit}>
+                <input required id="email" name="email" placeholder="Email" type="email" value={email} onChange={handleChangeEmai} />
+                <input required id="password" name="password" placeholder="Пароль" type="password" value={password} onChange={handleChangePassword} />
                 <div className="register__button-container">
                     <button type="submit" className="register__link" onSubmit={handleSubmit}>Зарегистрироваться</button>
                 </div>
             </form>
             <div className="register__signup">
                 <p>Уже зарегистрированы?</p>
-                <Link to="/login" className="register__signup-link">Войти</Link>
+                <Link onClick={props.updateHistory} to="/sign-in" className="register__signup-link">Войти</Link>
             </div>
         </div>
     )
